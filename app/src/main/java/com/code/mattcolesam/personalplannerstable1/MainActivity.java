@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -19,7 +20,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
+public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeListener {
 
     TextView currentTimeValue, totalTimeValue;
     int time, totalTime;
@@ -27,6 +28,7 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
     EditText taskInputValue;
     Button myButton;
     String x;
+    List<codeTemTask> codeTemTasksList = new ArrayList<codeTemTask>();
 
     public class codeTemTask {
         String taskName;
@@ -61,7 +63,7 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
 
                 codeTemTask task = taskListAdapter.getCodeTempTask(arg2);
 
-                Toast.makeText(MainActivity.this, task.taskName, Toast.LENGTH_LONG).show();
+                //Toast.makeText(MainActivity.this, task.taskName, Toast.LENGTH_LONG).show();
 
             }
         });
@@ -72,7 +74,13 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
         public void onClick(View v) {
             x = taskInputValue.getText().toString();
             onAddTask(time);
-            
+
+            codeTemTask task = new codeTemTask();
+            task.taskName = x;
+            task.taskTime = "" + time;
+            codeTemTasksList.add(task);
+
+            getDataForListView();
         }
     };
 
@@ -131,23 +139,11 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
 
     public List<codeTemTask> getDataForListView()
     {
-        List<codeTemTask> codeTemTasksList = new ArrayList<codeTemTask>();
 
-        for(int i=0;i<10;i++)
-        {
 
-            codeTemTask task = new codeTemTask();
-            task.taskName = "Task " +i;
-            task.taskTime = "Temporary task time: "+i;
-            codeTemTasksList.add(task);
-        }
 
         return codeTemTasksList;
 
-    }
-
-    public void onClick(View v) {
-        taskInputValue.setText("");
     }
 
     // for seek bar
